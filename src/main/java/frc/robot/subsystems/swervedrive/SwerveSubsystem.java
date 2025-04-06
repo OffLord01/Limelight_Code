@@ -605,7 +605,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public Command autoDistance() {
     return this.driveCommandu(
-          O setpoint do controller_distance deve ser igual a leitura da limelight do TZ
+        //  O setpoint do controller_distance deve ser igual a leitura da limelight do TZ
         () -> controller_distance.calculate(Units.degreesToRadians([2], 0.0), () -> 0,
         () -> 0);
   }
