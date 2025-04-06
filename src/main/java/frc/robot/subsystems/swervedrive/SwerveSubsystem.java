@@ -581,29 +581,39 @@ public class SwerveSubsystem extends SubsystemBase {
   private final PIDController controller_distance = new PIDController(3, 0, 0);
 
   private final XboxController control = new XboxController(0);
+// Valores que representan quais são as doubles que são puxadas da leitura da limelight
+// 0 TX
+// 2 TZ 
+// 4 RY
+  double[] postions = LimelightHelpers.getBotPose_TargetSpace("");
+
 
   public Command autoAlign() {
+    //O setpoint do controller deve ser igual a leitura da limelight do RY
     return this.driveCommandu(() -> -MathUtil.applyDeadband(control.getLeftY(), Controle.DEADBAND) * 0.2,
         () -> -MathUtil.applyDeadband(control.getLeftX(), Controle.DEADBAND) * 0.2,
-        () -> controller.calculate(Units.degreesToRadians(LimelightHelpers.getTX("limelight")), 0.0));
+        () -> controller.calculate(postions[4], 0.0));
 
   }
 
   public Command autoRange() {
+        //O setpoint do controller_range deve ser igual a leitura da limelight do tx
+
     return this.driveCommandu(() -> 0,
-        () -> controller_range.calculate(Units.degreesToRadians(LimelightHelpers.getTX("limelight")), 0.0), () -> 0);
+        () -> controller_range.calculate(postions[0], 0.0), () -> 0);
   }
 
   public Command autoDistance() {
     return this.driveCommandu(
-        () -> controller_distance.calculate(Units.degreesToRadians(LimelightHelpers.getTY("limelight")), 0.0), () -> 0,
+          O setpoint do controller_distance deve ser igual a leitura da limelight do TZ
+        () -> controller_distance.calculate(Units.degreesToRadians([2], 0.0), () -> 0,
         () -> 0);
   }
 
   public Command autoDuo() {
     return this.driveCommandu(
-        () -> controller_distance.calculate(Units.degreesToRadians(LimelightHelpers.getTY("limelight")), 0.0),
-        () -> controller_range.calculate(Units.degreesToRadians(LimelightHelpers.getTX("limelight")), 0.0),
+        () -> controller_distance.calculate(Units.degreesToRadians(postions[0], 0.0),
+        () -> controller_range.calculate(Units.degreesToRadians(postions[2], 0.0),
         () -> 0);
   }
 
